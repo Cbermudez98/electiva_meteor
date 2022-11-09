@@ -1,18 +1,23 @@
 import { Meteor } from 'meteor/meteor';
-import { TaskCollection } from "../imports/api/TaskCollection";
+import { UserCollection } from "../imports/api/UserCollection";
 
-const inserText = (taskText) => TaskCollection.insert({
-  text: taskText
+const insertUser = (user) => UserCollection.insert({
+  ...user
 });
 
 Meteor.startup(() => {
-  if(TaskCollection.find().count() === 0) {
+  if(UserCollection.find().count() === 0) {
     [
-      "first task",
-      "second task",
-      "third task"
-    ].forEach(inserText);
+      {
+        nombre: "Lorem",
+        apellido: "Ipsum",
+        email: "lorem@ipsum.dolor",
+        password: "loremipsum",
+        telefono: "3126548890",
+        cedula: "1234567890"
+      }
+    ].forEach(insertUser);
   }
 });
 
-export { inserText }
+export { insertUser }
