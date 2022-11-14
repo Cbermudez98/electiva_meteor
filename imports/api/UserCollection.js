@@ -1,4 +1,4 @@
-import { Mongo, ObjectId } from "meteor/mongo";
+import { Mongo } from "meteor/mongo";
 
 export const UserCollection = new Mongo.Collection("users");
 
@@ -12,6 +12,8 @@ export const getUser = (_id) => UserCollection.find({_id}).fetch();
 
 export const updateUser = ({_id, user}) => UserCollection.update({_id}, {
     $set: {
-        user
+        ...user
     }
 });
+
+export const deleteUser = ({_id}) => UserCollection.remove({_id});

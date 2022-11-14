@@ -2,8 +2,14 @@ import React from "react";
 import { useTracker } from "meteor/react-meteor-data";
 import { getUsers } from "../../api/UserCollection";
 import { FlowRouter } from "meteor/kadira:flow-router";
+import { deleteUser } from "../../api/UserCollection";
 
 export const Task = () => {
+
+    const deleteUserHandler = (event) => {
+        deleteUser({_id: event.target.id});
+    } 
+
     const users = useTracker(() => {
         return getUsers();
     });
@@ -33,7 +39,7 @@ export const Task = () => {
                                     <td>{user.cedula}</td>
                                     <td>
                                         <a className="btn btn-success btn-sm mx-2" href={FlowRouter.path(`update/${user._id}`)}>Editar</a>
-                                        <a className="btn btn-danger btn-sm" href={FlowRouter.path(`update/${user._id}`)}>Eliminar</a>
+                                        <a className="btn btn-danger btn-sm" id={user._id} onClick={deleteUserHandler}>Eliminar</a>
                                     </td>
                                 </tr>
                             ))
@@ -43,6 +49,11 @@ export const Task = () => {
             </div>
         );
     } else {
-        return (<p>No element</p>);
+        return (
+            <div>
+                <a className="btn btn-success" href={FlowRouter.path("/add")}>Agregar Usuario</a>
+                <p>No element</p>
+            </div>
+        );
     }
 };

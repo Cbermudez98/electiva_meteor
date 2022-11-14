@@ -16,14 +16,23 @@ export const Form = ({ _id }) => {
     telefono: "",
     cedula: ""
   });
+  const [isInitialRender, setIsInitialRender] = useState(true);
 
   if (_id) {
     const user = getUser(_id);
     delete user[0]._id;
-    Object.keys(user[0]).forEach(key => {
-        useEffect(() => {
-            setValues(user[0]);
-        });
+    useEffect(() => {
+        if (isInitialRender) {
+            setIsInitialRender(false);
+            setValues({
+                nombre: user[0].nombre,
+                apellido: user[0].apellido,
+                email: user[0].email,
+                password: user[0].password,
+                telefono: user[0].telefono,
+                cedula: user[0].cedula
+            });
+        }
     });
   }
 
@@ -49,7 +58,7 @@ export const Form = ({ _id }) => {
     if (!_id) {
         insert(values);
     } else if (_id) {
-        update(_id, values);
+        updateUser({_id, user: values});
     }
     FlowRouter.go("/");
   }
